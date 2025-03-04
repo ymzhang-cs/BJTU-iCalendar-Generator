@@ -21,6 +21,19 @@ TIME_SLOTS = {
     7: "21:00",
 }
 
+# 错峰上课时间段
+# 思源西楼、逸夫楼第二节课错后20分钟，其余不变
+STAGGERED_KEYWORD = ['思源西楼','逸夫教学楼']
+STAGGERED_TIME_SLOTS = {
+    1: "08:00",
+    2: "10:30",
+    3: "12:10",
+    4: "14:10",
+    5: "16:20",
+    6: "19:00",
+    7: "21:00",
+}
+
 # 星期映射 (iCalendar 格式)
 WEEKDAY_MAP = {
     1: "MO",
@@ -54,7 +67,10 @@ class Writer:
             weeks_data = course["weeks"]
 
             # 计算上课开始时间
-            start_time = TIME_SLOTS.get(lesson)
+            if any(keyword in location for keyword in STAGGERED_KEYWORD):
+                start_time = STAGGERED_TIME_SLOTS.get(lesson)
+            else:
+                start_time = TIME_SLOTS.get(lesson)
             if not start_time:
                 continue  # 避免无效时间段
 
@@ -120,6 +136,9 @@ class Writer:
         """写入 ICS 文件"""
         if not file_path:
             file_path = save_ics_file()
+        if not file_path:
+            print("用户取消保存，程序退出")
+            exit()
         cal = self.generate_ics()
         with open(file_path, "w", encoding='utf-8') as f:
             f.writelines(cal)
@@ -129,7 +148,8 @@ def save_ics_file():
     """弹出文件保存窗口，让用户选择保存 ics 路径，并返回文件路径"""
     root = tk.Tk()
     root.withdraw()
-    
+    root.attributes('-topmost', True)  # 使窗口置顶
+
     # 适配高 DPI 缩放
     #告诉操作系统使用程序自身的dpi适配
     ctypes.windll.shcore.SetProcessDpiAwareness(1)

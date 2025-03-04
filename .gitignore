@@ -1,6 +1,6 @@
 # Custom
-pages/
 *.ics
+*.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
