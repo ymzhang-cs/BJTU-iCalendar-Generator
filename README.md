@@ -17,13 +17,19 @@
 
 ## 使用方法
 
-1. 登录教务系统，进入课表页面。
+1. 安装所需模块
 
-2. `Ctrl + S` 或 右键 -> 另存为，设置保存格式为 `网页，仅 HTML (*.html;*.htm)`，保存到该项目的 `pages` 文件夹下。
+```bash
+pip install -r requirements.txt
+```
 
-3. 运行 `main.py`，按照操作指引选择 html 文件与导出的 iCalendar 文件的路径。
+2. 登录教务系统，进入课表页面。
 
-4. 导入 iCalendar 文件到日历软件中。
+3. `Ctrl + S` 或 右键 -> 另存为，设置保存格式为 `网页，仅 HTML (*.html;*.htm)`，保存到该项目的 `pages` 文件夹下。
+
+4. 运行 `main.py`，按照操作指引选择 html 文件与导出的 iCalendar 文件的路径。
+
+5. 导入 iCalendar 文件到日历软件中。
 
 ## ICS 文件导入 iOS 日历
 
