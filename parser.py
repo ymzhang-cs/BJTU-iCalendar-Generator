@@ -9,6 +9,9 @@ class Parser:
     def __init__(self, file_path=None):
         print("file_path:", file_path if file_path else "None")
         self.file_path = file_path if file_path else select_html_file()
+        if not self.file_path:
+            print("未选择文件，程序退出")
+            exit()
         print("self.file_path:", self.file_path)
 
     def parse(self):
@@ -156,6 +159,7 @@ def select_html_file():
     """弹出文件选择窗口，让用户选择课表 HTML 文件，并返回文件路径"""
     root = tk.Tk()
     root.withdraw()  # 隐藏主窗口
+    root.attributes('-topmost', True)  # 使窗口置顶
 
     # 适配高 DPI 缩放
     #告诉操作系统使用程序自身的dpi适配
