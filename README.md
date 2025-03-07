@@ -1,5 +1,7 @@
 # BJTU-iCalendar-Generator
 
+![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fymzhang-cs%2FBJTU-iCalendar-Generator&countColor=%23263759)
+
 将教务系统的课程表导出为 iCalendar 文件，方便导入到日历软件中。
 
 支持以下功能：
