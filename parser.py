@@ -82,6 +82,7 @@ class Parser:
                 # 遍历每一个div
                 for div in cell.find_all("div", recursive=False):
                     """
+                    示例数据：
                     <div >
                         <span >
                             M402004B [03] <br />
@@ -92,7 +93,7 @@ class Parser:
                             第01-16周
                             <i>魏名元</i>
                         </div>
-                        <span class="text-muted">逸夫教学楼 YF415</span>
+                        <span class="text-muted">海淀西校区, 逸夫教学楼, YF东706</span>
                         <span class="green" style="display: inline-block;">[ 选中 ]</span>
                     </div>
                     """
@@ -111,7 +112,9 @@ class Parser:
                     time_type, time_data = week_type_detect(weeks_str)
                     
                     # 解析上课地点
-                    location = div.find_all("span")[1].get_text().strip()
+                    # 20250905 修改：发现学校教务系统添加了校区信息，并且分隔使用", " 这里暂时只取第2个和第3个
+                    location = div.find_all("span")[1].get_text().strip().split(", ")
+                    location = location[1] + " " + location[2]
                     
                     # 保存解析后的数据
                     parsed_data.append({
