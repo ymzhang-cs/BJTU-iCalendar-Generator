@@ -4,6 +4,7 @@ import ctypes
 from bs4 import BeautifulSoup
 import re
 import os
+import platform
 
 class Parser:
     def __init__(self, file_path=None):
@@ -164,13 +165,18 @@ def select_html_file():
     root.withdraw()  # 隐藏主窗口
     root.attributes('-topmost', True)  # 使窗口置顶
 
-    # 适配高 DPI 缩放
-    #告诉操作系统使用程序自身的dpi适配
-    ctypes.windll.shcore.SetProcessDpiAwareness(1)
-    #获取屏幕的缩放因子
-    ScaleFactor=ctypes.windll.shcore.GetScaleFactorForDevice(0)
-    #设置程序缩放
-    root.tk.call('tk', 'scaling', ScaleFactor/75)
+    # 适配高 DPI 缩放（仅 Windows）
+    if platform.system() == "Windows":
+        try:
+            # 告诉操作系统使用程序自身的dpi适配
+            ctypes.windll.shcore.SetProcessDpiAwareness(1)
+            # 获取屏幕的缩放因子
+            ScaleFactor = ctypes.windll.shcore.GetScaleFactorForDevice(0)
+            # 设置程序缩放
+            root.tk.call('tk', 'scaling', ScaleFactor/75)
+        except (AttributeError, OSError):
+            # 如果 DPI 适配失败，继续执行（兼容旧版 Windows 或没有高 DPI 的情况）
+            pass
     
     # 获取当前文件所在目录
     current_dir = os.path.dirname(__file__)
